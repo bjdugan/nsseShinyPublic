@@ -66,7 +66,8 @@ usethis::use_git()
 ## Sets the remote associated with 'name' to 'url'
 usethis::use_git_remote(
   name = "origin",
-  url = "https://github.com/bjdugan/nsseShinyPublic.git"
+  url = "https://github.com/bjdugan/nsseShinyPublic.git",
+  overwrite = TRUE
 )
 usethis::use_github(private = FALSE)
 
