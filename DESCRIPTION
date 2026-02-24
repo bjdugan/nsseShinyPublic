@@ -5,17 +5,26 @@ Authors@R:
     person("Brendan", "Dugan", , "ardentArmadillo24@proton.me", role = c("aut", "cre"))
 Description: Shiny public test environment for NSSE reporting.
 License: MIT + file LICENSE
+URL: https://github.com/bjdugan/nsseShinyPublic
+BugReports: https://github.com/bjdugan/nsseShinyPublic/issues
+Depends: 
+    R (>= 3.5)
 Imports: 
+    bslib,
     config,
+    DBI,
+    dplyr,
+    DT,
     golem,
-    shiny
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.1
+    htmltools,
+    RSQLite,
+    shiny,
+    tidyr
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
 Language: en-US
-URL: https://github.com/bjdugan/nsseShinyPublic
-BugReports: https://github.com/bjdugan/nsseShinyPublic/issues
+LazyData: true
+RoxygenNote: 7.3.3
