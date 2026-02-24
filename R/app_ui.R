@@ -3,14 +3,90 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import bslib
+#' @import dplyr
+#' @import htmltools
 #' @noRd
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    # Your application UI logic
-    fluidPage(
-      golem::golem_welcome_page() # Remove this line to start building your UI
+
+    # sidebar
+    page_sidebar(
+      title = "NSSE Data Explorer (TEST)",
+      sidebar = sidebar(
+        width = 300,
+
+        # item/kpi/topical filters
+        # this will need to be limited to available instrument if kept
+        # also recall UI is static, can't talk to database; hence util fxn
+        card_header("Topical filters"),
+        selectInput(
+          "kpi_name_filter",
+          "Topic:",
+          choices = c("None", get_kpi_name_filter()),
+          selected = "None" # force selection
+        ),
+        # institutional filters
+        card_header("Institutional filters"),
+        selectInput(
+          "unitid_filter",
+          "Unitid:",
+          choices = unique(institutions$unitid),
+          selected = unique(institutions$unitid)[1]
+        ),
+        selectInput(
+          "comp_filter",
+          "Comparison group:",
+          choices = 1:5,
+          selected = 1
+        ),
+        # student-level filters
+        card_header("Student filters"),
+        selectInput(
+          "irclass_filter",
+          "Class level",
+          choices = unique(respondents$IRclass),
+          selected = "First-year"
+        ),
+        selectInput(
+          "irenrollment_filter",
+          "Enrollment status",
+          choices = c("All", unique(respondents$IRenrollment)),
+          selected = "All"
+        ),
+        selectInput(
+          "irsex_filter",
+          "Sex",
+          choices = c("All", unique(respondents$IRsex)),
+          selected = "All"
+        ),
+        # other action buttons
+        actionButton("reset_filters", "Reset filters",
+                     class = "btn_secondary w-100"
+        )
+      ),
+      # main panel content
+      navset_card_tab(
+        nav_panel("Summary",
+                  # see if this can't accept output$ stuff piped from selections
+                  HTML(c("<H2>H2 Header directly input</H2>",
+                         "<p>Some paragraph of text etc.",
+                         "<p>(Plot placeholder)</p>")),
+                  DTOutput("table")
+        ),
+        nav_panel("Read Me",
+                  # htmltools, alternative to ~tedious formatting above.
+                  h2("Please be aware!"),
+                  p("All survey response and student data presented here are fabricated.
+                  Institutions were selected arbitrarily as examples.
+                  No inferences should be made from these data.
+                  This application serves only as a prototype.
+                  <strong>You have been warned!</strong>
+                  Please direct any feedback or hatemail to Brendan (bjdugan@iu.edu)")
+        )
+      )
     )
   )
 }

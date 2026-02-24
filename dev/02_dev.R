@@ -26,7 +26,7 @@ golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the modu
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("helpers", with_test = TRUE)
-golem::add_utils("helpers", with_test = TRUE)
+golem::add_utils("get_kpi_name_filter", with_test = TRUE)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
@@ -38,7 +38,12 @@ golem::add_any_file("file.json")
 
 ## Add internal datasets ----
 ## If you have data in your package
-usethis::use_data_raw(name = "my_dataset", open = FALSE)
+# follow these in order
+usethis::use_data_raw(name = "institutions", open = TRUE)
+usethis::use_data_raw(name = "comp_groups", open = TRUE)
+usethis::use_data_raw(name = "responses", open = TRUE)
+usethis::use_data_raw(name = "respondents", open = TRUE)
+usethis::use_data_raw(name = "instruments", open = TRUE)
 
 ## Tests ----
 ## Add one line by test you want to create
