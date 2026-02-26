@@ -3,6 +3,7 @@
 export(run_app)
 import(DT)
 import(bslib)
+import(dbplyr)
 import(dplyr)
 import(htmltools)
 import(shiny)

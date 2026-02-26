@@ -13,11 +13,11 @@ Imports:
     bslib,
     config,
     DBI,
+    dbplyr,
     dplyr,
     DT,
     golem,
     htmltools,
-    pkgload,
     RSQLite,
     shiny,
     tidyr

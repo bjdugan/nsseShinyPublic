@@ -4,6 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @import dplyr
+#' @import dbplyr
 #' @import tidyr
 #' @import DT
 #' @import htmltools
