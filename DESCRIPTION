@@ -17,6 +17,7 @@ Imports:
     DT,
     golem,
     htmltools,
+    pkgload,
     RSQLite,
     shiny,
     tidyr
