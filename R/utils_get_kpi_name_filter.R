@@ -13,7 +13,9 @@ get_kpi_name_filter <- function() {
                            dbname = "./inst/app/db/instruments.db") # pre-install/dev
   on.exit(DBI::dbDisconnect(instruments))
 
-  x <- c("None", pull(distinct(tbl(instruments, "kpi_desc"), kpi_name)))
+  #x <- c("None", pull(distinct(tbl(instruments, "kpi_desc"), kpi_name)))
+  # setting default to 1st, not "None"
+  x <- pull(distinct(tbl(instruments, "kpi_desc"), kpi_name))
 
   return(x[!is.na(x)])
 
