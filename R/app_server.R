@@ -4,9 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @import dplyr
-#' @import dbplyr
 #' @import tidyr
-#' @import DT
 #' @import htmltools
 #' @noRd
 app_server <- function(input, output, session) {
@@ -20,12 +18,6 @@ app_server <- function(input, output, session) {
   onStop(function() {
     DBI::dbDisconnect(instruments)
   })
-
-  # dynamic UI elements; loaded once (static) and supplied in selectInput directly
-  # observe({
-  #   kpi_name_filter_content <- c("None", pull(distinct(tbl(instruments, "kpi_desc"), kpi_name)))
-  #   updateSelectInput(session, "kpi_name_filter", choices = kpi_name_filter_content)
-  # })
 
   # reactive filtered data
   filtered_data <- reactive({
@@ -59,9 +51,10 @@ app_server <- function(input, output, session) {
       data <- filter(data, IRsex == input$irsex_filter)
     }
 
-    # item groups
+    # item groups; note None is omitted now...
     if (input$kpi_name_filter != "None") {
-      data <- filter(tbl(instruments, "kpi_desc"), kpi_name == input$kpi_name_filter) |>
+      data <- filter(tbl(instruments, "kpi_desc"),
+                     kpi_name == input$kpi_name_filter) |>
         left_join(tbl(instruments, "kpis"), by = c("kpi", "kpi_group")) |>
         select(item) |>
         collect() |>
@@ -74,9 +67,10 @@ app_server <- function(input, output, session) {
 
   # summarization, probably in separate functions
 
-  # output
+  # output ####
+
   # server=FALSE will allow DL of all data presented, not just first N rows
-  output$table <- renderDT(server = FALSE, {
+  output$table <- DT::renderDT(server = FALSE, {
     # simple summarization for now
     DT::datatable(
       filtered_data() |>
@@ -101,7 +95,7 @@ app_server <- function(input, output, session) {
           select(label, item, response_option, value, n_TRUE, p_TRUE, n_FALSE,
                  p_FALSE),
       # options
-      extensions = "Buttons", # for donwload etc.
+      extensions = "Buttons", # for download etc.
       # can feed this with Question etc?
       caption = tags$caption("Table caption", style = "caption-side:top;"),
       options = list(
@@ -131,4 +125,27 @@ app_server <- function(input, output, session) {
       class = 'cell-border stripe'
     )
   })
+
+  # feed various text elements to be used in UI
+  # page title
+  output$page_title <- renderText({
+    paste("NSSE2X:", # could add year dynamically etc.
+          filter(institutions,
+                 unitid == input$unitid_filter)$name_report
+    )
+  })
+  # main content panel title: selected topic
+  output$panel_title <- renderText({
+    filter(tbl(instruments, "kpi_desc"),
+           kpi_name == input$kpi_name_filter) |>
+      pull(kpi_name)
+  })
+  # description
+  output$panel_kpi_desc <- renderText({
+    filter(tbl(instruments, "kpi_desc"),
+           kpi_name == input$kpi_name_filter) |>
+      pull(description)
+  })
+
+
 }

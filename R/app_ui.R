@@ -14,7 +14,8 @@ app_ui <- function(request) {
 
     # sidebar
     page_sidebar(
-      title = "NSSE Data Explorer (TEST)",
+      title = uiOutput("page_title"),
+      window_title = "NSSE Data Explorer",
       sidebar = sidebar(
         width = 300,
 
@@ -25,8 +26,8 @@ app_ui <- function(request) {
         selectInput(
           "kpi_name_filter",
           "Topic:",
-          choices = c("None", get_kpi_name_filter()),
-          selected = "None" # force selection
+          choices = get_kpi_name_filter(),
+          selected = get_kpi_name_filter()[1], # or some sensible default
         ),
         # institutional filters
         card_header("Institutional filters"),
@@ -67,14 +68,21 @@ app_ui <- function(request) {
                      class = "btn_secondary w-100"
         )
       ),
+
       # main panel content
       navset_card_tab(
-        nav_panel("Summary",
-                  # see if this can't accept output$ stuff piped from selections
-                  HTML(c("<H2>H2 Header directly input</H2>",
-                         "<p>Some paragraph of text etc.",
-                         "<p>(Plot placeholder)</p>")),
-                  DTOutput("table")
+        nav_panel(
+          title = uiOutput("panel_title"),
+
+          # text content: context, links, etc.
+          p("Generic statement, boilerplate text, etc. followed by dynamic content."),
+          uiOutput("panel_kpi_desc"),
+          p("Links to other reports etc."),
+
+          # dataviz and tables placeholder
+          DT::DTOutput("table"),
+          # other
+          HTML("<small>links placeholder (feedback, support, etc.</small>")
         ),
         nav_panel("Read Me",
                   # htmltools, alternative to ~tedious formatting above.
@@ -115,3 +123,5 @@ golem_add_external_resources <- function() {
     # for example, you can add shinyalert::useShinyalert()
   )
 }
+
+# for testing locally: devtools::load_all(); run_app()
