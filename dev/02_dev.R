@@ -89,6 +89,12 @@ usethis::use_jenkins()
 # GitLab CI
 usethis::use_gitlab_ci()
 
+# Posit Cloud Connect requires a single app.r, not app_server.r and app_ui.
+# be sure this ports any updates from main app_ui etc.
+?golem::add_positconnect_file()
+
 # You're now set! ----
 # go to dev/03_deploy.R
 rstudioapi::navigateToFile("dev/03_deploy.R")
+
+
