@@ -1,7 +1,7 @@
 {
   "version": 1,
   "locale": "en_US",
-  "platform": "4.5.2",
+  "platform": "4.5.3",
   "metadata": {
     "appmode": "shiny",
     "primary_rmd": null,
@@ -808,44 +808,6 @@
         "RemoteRef": "curl",
         "RemoteRepos": "https://mirror.its.umich.edu/cran",
         "RemoteSha": "7.0.0"
-      }
-    },
-    "dbplyr": {
-      "Source": "CRAN",
-      "Repository": "https://mirror.its.umich.edu/cran",
-      "description": {
-        "Type": "Package",
-        "Package": "dbplyr",
-        "Title": "A 'dplyr' Back End for Databases",
-        "Version": "2.5.1",
-        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Maximilian\", \"Girlich\", role = \"aut\"),\n    person(\"Edgar\", \"Ruiz\", role = \"aut\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
-        "Description": "A 'dplyr' back end for databases that allows you to work with\n    remote database tables as if they are in-memory data frames.  Basic\n    features works with any database that has a 'DBI' back end; more\n    advanced features require 'SQL' translation to be provided by the\n    package author.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://dbplyr.tidyverse.org/, https://github.com/tidyverse/dbplyr",
-        "BugReports": "https://github.com/tidyverse/dbplyr/issues",
-        "Depends": "R (>= 3.6)",
-        "Imports": "blob (>= 1.2.0), cli (>= 3.6.1), DBI (>= 1.1.3), dplyr (>=\n1.1.2), glue (>= 1.6.2), lifecycle (>= 1.0.3), magrittr,\nmethods, pillar (>= 1.9.0), purrr (>= 1.0.1), R6 (>= 2.2.2),\nrlang (>= 1.1.1), tibble (>= 3.2.1), tidyr (>= 1.3.0),\ntidyselect (>= 1.2.1), utils, vctrs (>= 0.6.3), withr (>=\n2.5.0)",
-        "Suggests": "bit64, covr, knitr, Lahman, nycflights13, odbc (>= 1.4.2),\nRMariaDB (>= 1.2.2), rmarkdown, RPostgres (>= 1.4.5),\nRPostgreSQL, RSQLite (>= 2.3.8), testthat (>= 3.1.10)",
-        "VignetteBuilder": "knitr",
-        "Config/Needs/website": "tidyverse/tidytemplate",
-        "Config/testthat/edition": "3",
-        "Config/testthat/parallel": "TRUE",
-        "Encoding": "UTF-8",
-        "Language": "en-gb",
-        "RoxygenNote": "7.3.3",
-        "Collate": "'db-sql.R' 'utils-check.R' 'import-standalone-types-check.R'\n'import-standalone-obj-type.R' 'utils.R' 'sql.R' 'escape.R'\n'translate-sql-cut.R' 'translate-sql-quantile.R'\n'translate-sql-string.R' 'translate-sql-paste.R'\n'translate-sql-helpers.R' 'translate-sql-window.R'\n'translate-sql-conditional.R' 'backend-.R' 'backend-access.R'\n'backend-hana.R' 'backend-hive.R' 'backend-impala.R'\n'verb-copy-to.R' 'backend-mssql.R' 'backend-mysql.R'\n'backend-odbc.R' 'backend-oracle.R' 'backend-postgres.R'\n'backend-postgres-old.R' 'backend-redshift.R'\n'backend-snowflake.R' 'backend-spark-sql.R' 'backend-sqlite.R'\n'backend-teradata.R' 'build-sql.R' 'data-cache.R'\n'data-lahman.R' 'data-nycflights13.R' 'db-escape.R' 'db-io.R'\n'db.R' 'dbplyr.R' 'explain.R' 'ident.R'\n'import-standalone-s3-register.R' 'join-by-compat.R'\n'join-cols-compat.R' 'lazy-join-query.R' 'lazy-ops.R'\n'lazy-query.R' 'lazy-select-query.R' 'lazy-set-op-query.R'\n'memdb.R' 'optimise-utils.R' 'pillar.R' 'progress.R'\n'sql-build.R' 'query-join.R' 'query-select.R'\n'query-semi-join.R' 'query-set-op.R' 'query.R' 'reexport.R'\n'remote.R' 'rows.R' 'schema.R' 'simulate.R' 'sql-clause.R'\n'sql-expr.R' 'src-sql.R' 'src_dbi.R' 'table-name.R'\n'tbl-lazy.R' 'tbl-sql.R' 'test-frame.R' 'testthat.R'\n'tidyeval-across.R' 'tidyeval.R' 'translate-sql.R'\n'utils-format.R' 'verb-arrange.R' 'verb-compute.R'\n'verb-count.R' 'verb-distinct.R' 'verb-do-query.R' 'verb-do.R'\n'verb-expand.R' 'verb-fill.R' 'verb-filter.R' 'verb-group_by.R'\n'verb-head.R' 'verb-joins.R' 'verb-mutate.R'\n'verb-pivot-longer.R' 'verb-pivot-wider.R' 'verb-pull.R'\n'verb-select.R' 'verb-set-ops.R' 'verb-slice.R'\n'verb-summarise.R' 'verb-uncount.R' 'verb-window.R' 'zzz.R'",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-09-09 16:38:28 UTC; hadleywickham",
-        "Author": "Hadley Wickham [aut, cre],\n  Maximilian Girlich [aut],\n  Edgar Ruiz [aut],\n  Posit Software, PBC [cph, fnd]",
-        "Maintainer": "Hadley Wickham <hadley@posit.co>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-09-10 07:51:05 UTC",
-        "Built": "R 4.5.1; ; 2025-09-11 09:38:22 UTC; windows",
-        "RemoteType": "standard",
-        "RemotePkgRef": "dbplyr",
-        "RemoteRef": "dbplyr",
-        "RemoteRepos": "https://mirror.its.umich.edu/cran",
-        "RemoteSha": "2.5.1"
       }
     },
     "desc": {
@@ -3177,10 +3139,10 @@
       "checksum": "c13621ce8632c67bfcb92c0c0b2c7d6d"
     },
     "DESCRIPTION": {
-      "checksum": "c89aed0c8e472f2c6c25af0dadf506ee"
+      "checksum": "98716cb6c94ef1fcd2c87b4bb7f5a2da"
     },
     "inst/app/db/instruments.db": {
-      "checksum": "35675a8f83018d9ac70b2d893123bd91"
+      "checksum": "682e3605ce03eb2365ffb49e22603608"
     },
     "inst/app/www/favicon.ico": {
       "checksum": "81560d1b906a530c87fa0acbb2f5cca4"
@@ -3192,7 +3154,7 @@
       "checksum": "8c37cdd661eb75c71670e5996a801d20"
     },
     "NAMESPACE": {
-      "checksum": "86b1cd0161c7efa0dd8a6733c0f3fc11"
+      "checksum": "c7a29a12e95c0c206cc2f7f5eab59417"
     },
     "R/_disable_autoload.R": {
       "checksum": "9d8f7f20e88b559c046ec1f59fe82cba"
@@ -3201,10 +3163,10 @@
       "checksum": "b2350ce6ab0be97cdf94f224725071c9"
     },
     "R/app_server.R": {
-      "checksum": "0d0cc8fcbb4e96cc67d37a467d64cccc"
+      "checksum": "22773355623dc72a46c4e53004a48371"
     },
     "R/app_ui.R": {
-      "checksum": "afbd7629d457503c1d1daa97cef73ea3"
+      "checksum": "04fd58df371f5fc7fb73a98b02efcc6a"
     },
     "R/golem_utils_server.R": {
       "checksum": "c2998ee5dbb57c9af79904bc79133f74"
@@ -3213,10 +3175,10 @@
       "checksum": "1694775e681b1a4cf1ce4d2dda7e0316"
     },
     "R/run_app.R": {
-      "checksum": "476011bbc4ffefa824e5bfb8386d849b"
+      "checksum": "52e1d21b1a6a2c580bc158a2c88983e3"
     },
     "R/utils_get_kpi_name_filter.R": {
-      "checksum": "077aed781abf7c3fbb45fc3e9354fc93"
+      "checksum": "c5f2e2a0caab4173ba1a5f5e3765e8cf"
     }
   },
   "users": null
