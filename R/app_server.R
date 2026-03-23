@@ -21,7 +21,6 @@ app_server <- function(input, output, session) {
 
   # reactive filtered data
   filtered_data <- reactive({
-
     # keep inst and selected comparison
     data <- filter(institutions, unitid == input$unitid_filter) |>
       left_join(comp_groups, by = "unitid") |>
@@ -43,14 +42,6 @@ app_server <- function(input, output, session) {
       data <- filter(data, IRclass == input$irclass_filter)
     }
 
-    if (input$irenrollment_filter != "All") {
-      data <- filter(data, IRenrollment == input$irenrollment_filter)
-    }
-
-    if (input$irsex_filter != "All") {
-      data <- filter(data, IRsex == input$irsex_filter)
-    }
-
     # item groups; note None is omitted now...
     if (input$kpi_name_filter != "None") {
       data <- filter(tbl(instruments, "kpi_desc"),
@@ -70,6 +61,7 @@ app_server <- function(input, output, session) {
   # output ####
 
   # server=FALSE will allow DL of all data presented, not just first N rows
+  # > split the summarization function and datatable function into modules
   output$table <- DT::renderDT(server = FALSE, {
     # simple summarization for now
     DT::datatable(
@@ -78,9 +70,10 @@ app_server <- function(input, output, session) {
         count(inst, item, value) |>
         # filter missing, also filter valid/user NA levels
         filter(!is.na(value)) |>
-        mutate(p = n / sum(n) * 100, .by = c(inst, item)) |>
+        mutate(p = n / sum(n), .by = c(inst, item)) |>
         pivot_wider(names_from = inst, values_from = c(n, p)) |>
-        # add context; might benefit from view; also must accept correct instrument, yr
+        # add context; might benefit from view;
+        #  also must accept correct instrument, yr
         left_join(
           tbl(instruments, "items_US") |>
             filter(yr == 25) |>
@@ -92,8 +85,11 @@ app_server <- function(input, output, session) {
             select(response_set, value, response_option = label) |>
             collect(),
           by = c("response_set", "value")) |>
-          select(label, item, response_option, value, n_TRUE, p_TRUE, n_FALSE,
-                 p_FALSE),
+          select(label, item, response_option, value,
+                 `Institution (n)` = n_TRUE, `Institution (%)` = p_TRUE,
+                 `Comparison (n)` = n_FALSE, `Comparison (%)` = p_FALSE ) |>
+        rename_with(stringr::str_to_title, .cols = 1:4),
+
       # options
       extensions = "Buttons", # for download etc.
       # can feed this with Question etc?
@@ -116,17 +112,18 @@ app_server <- function(input, output, session) {
       ),
       filter = "none",
       # dynamically rename using input$... perhaps to filter comp_names table (TBD)
-      colnames = c("Label", "Item", "Response Option", "Value", "Institution (n)",
-                   "Institution (%)", "Comparison (n)", "Comparison (n)"),
+      # colnames = c("Label", "Item", "Response Option", "Value", "Institution (n)",
+      #              "Institution (%)", "Comparison (n)", "Comparison (%)"),
       rownames = FALSE,
       # as way to allow banding headers, e.g. label-item
       # https://stackoverflow.com/questions/59354456/r-and-dt-can-you-add-row-subheadings-and-groups-to-a-datatable
       # extensions = RowGroup
       class = 'cell-border stripe'
-    )
+    ) |>
+      DT::formatPercentage(c("Institution (%)", "Comparison (%)"), 1)
   })
 
-  # feed various text elements to be used in UI
+  # text elements to be used in UI ####
   # page title
   output$page_title <- renderText({
     paste("NSSE2X:", # could add year dynamically etc.

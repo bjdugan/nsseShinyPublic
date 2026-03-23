@@ -11,6 +11,8 @@
 #### CURRENT FILE: DEPLOY SCRIPT #####
 ######################################
 
+# for testing locally: devtools::load_all(); run_app()
+
 # Test your app
 
 ## Run checks ----

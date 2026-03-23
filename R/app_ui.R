@@ -20,14 +20,14 @@ app_ui <- function(request) {
         width = 300,
 
         # item/kpi/topical filters
-        # this will need to be limited to available instrument if kept
+        # this will need to be limited to available instrument(s)
         # also recall UI is static, can't talk to database; hence util fxn
         card_header("Topical filters"),
         selectInput(
           "kpi_name_filter",
           "Topic:",
           choices = get_kpi_name_filter(),
-          selected = get_kpi_name_filter()[1], # or some sensible default
+          selected = "Collaborative Learning",
         ),
         # institutional filters
         card_header("Institutional filters"),
@@ -50,18 +50,6 @@ app_ui <- function(request) {
           "Class level",
           choices = unique(respondents$IRclass),
           selected = "First-year"
-        ),
-        selectInput(
-          "irenrollment_filter",
-          "Enrollment status",
-          choices = c("All", unique(respondents$IRenrollment)),
-          selected = "All"
-        ),
-        selectInput(
-          "irsex_filter",
-          "Sex",
-          choices = c("All", unique(respondents$IRsex)),
-          selected = "All"
         ),
         # other action buttons
         actionButton("reset_filters", "Reset filters",
@@ -91,7 +79,6 @@ app_ui <- function(request) {
                   Institutions were selected arbitrarily as examples.
                   No inferences should be made from these data.
                   This application serves only as a prototype.
-                  <strong>You have been warned!</strong>
                   Please direct any feedback or hatemail to Brendan (bjdugan@iu.edu)")
         )
       )
@@ -124,4 +111,4 @@ golem_add_external_resources <- function() {
   )
 }
 
-# for testing locally: devtools::load_all(); run_app()
+
