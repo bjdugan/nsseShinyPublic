@@ -56,9 +56,63 @@ app_server <- function(input, output, session) {
     }
   })
 
-  # summarization, probably in separate functions
-
   # output ####
+  output$plot <- renderPlot({
+    filtered_data() |>
+      #data |> #local testing
+      count(inst, item, value) |>
+      filter(!is.na(value)) |>
+      mutate(p = n / sum(n), .by = c(inst, item)) |>
+      left_join(
+        tbl(instruments, "items_US") |>
+          filter(yr == 25) |>
+          select(item, label, response_set, question_order) |>
+          collect(),
+        by = "item") |>
+      left_join(
+        tbl(instruments, "response_options") |>
+          select(response_set, value, response_option = label, coded_as_missing) |>
+          collect(),
+        by = c("response_set", "value")) |>
+      left_join(
+        tbl(instruments, "questions_US") |>
+          filter(yr == 25) |>
+          select(question_order, question) |>
+          collect(),
+        by = "question_order"
+      ) |>
+      filter(coded_as_missing == 0) |>
+      filter(value %in% c(max(value), max(value) - 1)) |>
+      mutate(
+        label = factor(item,
+                       labels = paste0(unique(label), " [", unique(item), "]") |>
+                         str_wrap(40),
+        )) |>
+      summarize(
+        p = sum(p) * 100,
+        response_option = paste0(response_option, collapse = "/"),
+        .by = c("inst", "question", "label")
+      ) |>
+      mutate(xbegin = min(p), xend = max(p), .by = label) |>
+      ggplot(aes(x = p, y = fct_rev(label), color = inst)) +
+      geom_segment(aes(x = xbegin, xend = xend),
+                   color = "darkgrey",
+                   linewidth = 1.5) +
+      geom_point(size = 6) +
+      theme_minimal() +
+      theme(legend.position = "bottom",
+            plot.title.position = "plot",
+            legend.title = element_blank(),
+            text = element_text(size = 22)
+            ) +
+      scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+      labs(
+        title = "<Question>",
+        subtitle = "<Response option list>",
+        x = paste("Percentage", "<response option n-1/response option n>"),
+        y = NULL
+      )
+  })
 
   # server=FALSE will allow DL of all data presented, not just first N rows
   # > split the summarization function and datatable function into modules

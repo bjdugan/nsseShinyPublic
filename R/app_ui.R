@@ -15,7 +15,7 @@ app_ui <- function(request) {
     # sidebar
     page_sidebar(
       title = uiOutput("page_title"),
-      window_title = "NSSE Data Explorer",
+      window_title = "NSSE Report",
       sidebar = sidebar(
         width = 300,
 
@@ -63,11 +63,12 @@ app_ui <- function(request) {
           title = uiOutput("panel_title"),
 
           # text content: context, links, etc.
-          p("Generic statement, boilerplate text, etc. followed by dynamic content."),
+          p("**Generic statement, boilerplate text, etc. followed by dynamic content.**"),
           uiOutput("panel_kpi_desc"),
-          p("Links to other reports etc."),
+          p("**Links to other reports etc.**"),
 
           # dataviz and tables placeholder
+          plotOutput("plot"),
           DT::DTOutput("table"),
           # other
           HTML("<small>links placeholder (feedback, support, etc.</small>")
