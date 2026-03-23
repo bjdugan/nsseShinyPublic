@@ -19,6 +19,7 @@ Imports:
     htmltools,
     RSQLite,
     shiny,
+    stringr,
     tidyr
 Suggests: 
     spelling,

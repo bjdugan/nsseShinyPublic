@@ -6,6 +6,7 @@
 #' @import dplyr
 #' @import tidyr
 #' @import htmltools
+#' @import ggplot2
 #' @noRd
 app_server <- function(input, output, session) {
 
