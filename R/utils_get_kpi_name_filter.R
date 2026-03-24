@@ -9,8 +9,8 @@ get_kpi_name_filter <- function() {
 
   # db connection (added manually; contents of inst should move to root after isntallation)
   db_path <- system.file("app", "db", "instruments.db", package = "nsseShiny")
-  instruments <- DBI::dbConnect(RSQLite::SQLite(),  db_path)
-                           #dbname = "./inst/app/db/instruments.db") # pre-install/dev
+  instruments <- DBI::dbConnect(RSQLite::SQLite(),  #db_path)
+                           dbname = "./inst/app/db/instruments.db") # pre-install/dev
   on.exit(DBI::dbDisconnect(instruments))
 
   # for flat select input list, return vector
