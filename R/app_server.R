@@ -96,7 +96,7 @@ app_server <- function(input, output, session) {
         .by = c("inst", "question", "label")
       ) |>
       mutate(xbegin = min(p), xend = max(p), .by = label) |>
-      ggplot(aes(x = p, y = fct_rev(label), color = inst)) +
+      ggplot(aes(x = p, y = forcats::fct_rev(label), color = inst)) +
       geom_segment(aes(x = xbegin, xend = xend),
                    color = "darkgrey",
                    linewidth = 1.5) +
