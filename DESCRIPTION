@@ -16,6 +16,7 @@ Imports:
     dbplyr,
     dplyr,
     DT,
+    forcats,
     ggplot2,
     golem,
     htmltools,
