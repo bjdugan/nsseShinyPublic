@@ -1136,6 +1136,41 @@
         "RemoteSha": "0.5.3"
       }
     },
+    "forcats": {
+      "Source": "CRAN",
+      "Repository": "https://mirror.its.umich.edu/cran",
+      "description": {
+        "Package": "forcats",
+        "Title": "Tools for Working with Categorical Variables (Factors)",
+        "Version": "1.0.0",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = c(\"aut\", \"cre\")),\n    person(\"RStudio\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "Helpers for reordering factor levels (including moving\n    specified levels to front, ordering by first appearance, reversing,\n    and randomly shuffling), and tools for modifying factor levels\n    (including collapsing rare levels into other, 'anonymising', and\n    manually 'recoding').",
+        "License": "MIT + file LICENSE",
+        "URL": "https://forcats.tidyverse.org/,\nhttps://github.com/tidyverse/forcats",
+        "BugReports": "https://github.com/tidyverse/forcats/issues",
+        "Depends": "R (>= 3.4)",
+        "Imports": "cli (>= 3.4.0), glue, lifecycle, magrittr, rlang (>= 1.0.0),\ntibble",
+        "Suggests": "covr, dplyr, ggplot2, knitr, readr, rmarkdown, testthat (>=\n3.0.0), withr",
+        "VignetteBuilder": "knitr",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "LazyData": "true",
+        "RoxygenNote": "7.2.3",
+        "NeedsCompilation": "no",
+        "Packaged": "2023-01-27 14:11:11 UTC; hadleywickham",
+        "Author": "Hadley Wickham [aut, cre],\n  RStudio [cph, fnd]",
+        "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2023-01-29 22:20:02 UTC",
+        "Built": "R 4.5.1; ; 2025-09-11 12:51:11 UTC; windows",
+        "RemoteType": "standard",
+        "RemotePkgRef": "forcats",
+        "RemoteRef": "forcats",
+        "RemoteRepos": "https://mirror.its.umich.edu/cran",
+        "RemoteSha": "1.0.0"
+      }
+    },
     "fs": {
       "Source": "CRAN",
       "Repository": "https://mirror.its.umich.edu/cran",
@@ -3475,7 +3510,7 @@
       "checksum": "c13621ce8632c67bfcb92c0c0b2c7d6d"
     },
     "DESCRIPTION": {
-      "checksum": "f2117b0605c696c97d28e621bfcc218d"
+      "checksum": "ff085c7e71b2823a236ef405bdd5c77d"
     },
     "inst/app/db/instruments.db": {
       "checksum": "682e3605ce03eb2365ffb49e22603608"
@@ -3499,7 +3534,7 @@
       "checksum": "b2350ce6ab0be97cdf94f224725071c9"
     },
     "R/app_server.R": {
-      "checksum": "ac2f3e2793dc6e1308219e3dc3cc7717"
+      "checksum": "0959f195519c1f43aae7a86ac3ce8d70"
     },
     "R/app_ui.R": {
       "checksum": "04fd58df371f5fc7fb73a98b02efcc6a"
@@ -3514,7 +3549,7 @@
       "checksum": "52e1d21b1a6a2c580bc158a2c88983e3"
     },
     "R/utils_get_kpi_name_filter.R": {
-      "checksum": "c5f2e2a0caab4173ba1a5f5e3765e8cf"
+      "checksum": "55d5b00c2832a5142cda8ec0366ffe62"
     }
   },
   "users": null
