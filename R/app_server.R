@@ -88,7 +88,7 @@ app_server <- function(input, output, session) {
       mutate(
         label = factor(item,
                        labels = paste0(unique(label), " [", unique(item), "]") |>
-                         str_wrap(40),
+                         stringr::str_wrap(40),
         )) |>
       summarize(
         p = sum(p) * 100,
