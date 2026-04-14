@@ -31,11 +31,17 @@ mod_download_pdf_server <- function(id, summarized_data){
       content = function(file) {
         # set paths and temp dir
         temp_dir <- tempdir()
-        # this doesn't work locally - need full path
-        template_path <- system.file("md", "report_template.qmd",
-                                     package = "nsseShiny")
-        child_path <- system.file("md", "footer.qmd",
-                                  package = "nsseShiny")
+
+        # for local dev vs. production
+        if (interactive()) {
+          template_path <- "./inst/md/report_template.qmd"
+          child_path <- "./inst/md/footer.qmd"
+        } else {
+          template_path <- system.file("md", "report_template.qmd",
+                                       package = "nsseShiny")
+          child_path <- system.file("md", "footer.qmd",
+                                    package = "nsseShiny")
+        }
 
         # copy templates to temp directory to ensure child document is accessible
         temp_template <- file.path(temp_dir, "report_template.qmd")
@@ -46,7 +52,7 @@ mod_download_pdf_server <- function(id, summarized_data){
         # render
         quarto::quarto_render(
           input = temp_template,
-          output_file = file,
+          output_file = basename(file),
           # params for rmarkdown::render()
           execute_params = list(
             summarized_data = summarized_data()
