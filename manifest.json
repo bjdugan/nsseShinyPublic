@@ -2541,6 +2541,40 @@
         "RemoteSha": "1.1.0"
       }
     },
+    "quarto": {
+      "Source": "CRAN",
+      "Repository": "https://mirror.its.umich.edu/cran",
+      "description": {
+        "Package": "quarto",
+        "Title": "R Interface to 'Quarto' Markdown Publishing System",
+        "Version": "1.5.1",
+        "Authors@R": "c(\n    person(\"JJ\", \"Allaire\", , \"jj@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-0174-9868\")),\n    person(\"Christophe\", \"Dervieux\", , \"cderv@posit.co\", role = c(\"cre\", \"aut\"),\n           comment = c(ORCID = \"0000-0003-4474-2498\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")),\n    person(\"Gordon\", \"Woodhull\", role = \"ctb\")\n  )",
+        "Description": "Convert R Markdown documents and 'Jupyter' notebooks to a\n    variety of output formats using 'Quarto'.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://github.com/quarto-dev/quarto-r,\nhttps://quarto-dev.github.io/quarto-r/",
+        "BugReports": "https://github.com/quarto-dev/quarto-r/issues",
+        "Depends": "R (>= 4.1.0)",
+        "Imports": "cli, fs, htmltools, jsonlite, later, lifecycle, processx,\nrlang, rmarkdown, rstudioapi, tools, utils, xfun, yaml (>=\n2.3.10)",
+        "Suggests": "bslib, callr, curl, dplyr, flextable, ggiraph, ggplot2, gt,\nheatmaply, kableExtra, knitr, palmerpenguins, patchwork,\npkgload, plotly, rsconnect (>= 0.8.26), testthat (>= 3.1.7),\nthematic, tidyverse, tinytable, whoami, withr",
+        "VignetteBuilder": "quarto",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "SystemRequirements": "Quarto command line tool\n(<https://github.com/quarto-dev/quarto-cli>).",
+        "NeedsCompilation": "no",
+        "Packaged": "2025-09-04 13:45:05 UTC; chris",
+        "Author": "JJ Allaire [aut] (ORCID: <https://orcid.org/0000-0003-0174-9868>),\n  Christophe Dervieux [cre, aut] (ORCID:\n    <https://orcid.org/0000-0003-4474-2498>),\n  Posit Software, PBC [cph, fnd],\n  Gordon Woodhull [ctb]",
+        "Maintainer": "Christophe Dervieux <cderv@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-09-04 15:30:02 UTC",
+        "Built": "R 4.5.1; ; 2025-09-17 12:09:49 UTC; windows",
+        "RemoteType": "standard",
+        "RemotePkgRef": "quarto",
+        "RemoteRef": "quarto",
+        "RemoteRepos": "https://mirror.its.umich.edu/cran",
+        "RemoteSha": "1.5.1"
+      }
+    },
     "rappdirs": {
       "Source": "CRAN",
       "Repository": "https://mirror.its.umich.edu/cran",
@@ -3510,7 +3544,7 @@
       "checksum": "c13621ce8632c67bfcb92c0c0b2c7d6d"
     },
     "DESCRIPTION": {
-      "checksum": "ff085c7e71b2823a236ef405bdd5c77d"
+      "checksum": "d04935a8d5cc02a65a674c5aebe2ee69"
     },
     "inst/app/db/instruments.db": {
       "checksum": "682e3605ce03eb2365ffb49e22603608"
@@ -3521,11 +3555,17 @@
     "inst/golem-config.yml": {
       "checksum": "2878fed3da6d28ddedcd6084bb77bdea"
     },
+    "inst/md/footer.qmd": {
+      "checksum": "1ea2d2b0d4149abb39f24252821407a0"
+    },
+    "inst/md/report_template.qmd": {
+      "checksum": "7342efdb35c9e63e90466d8a4e736be7"
+    },
     "inst/WORDLIST": {
       "checksum": "8c37cdd661eb75c71670e5996a801d20"
     },
     "NAMESPACE": {
-      "checksum": "5f4664ec7200f53fc073d4461f9327c9"
+      "checksum": "10d2449c91df62b8ca0983130258841b"
     },
     "R/_disable_autoload.R": {
       "checksum": "9d8f7f20e88b559c046ec1f59fe82cba"
@@ -3534,16 +3574,19 @@
       "checksum": "b2350ce6ab0be97cdf94f224725071c9"
     },
     "R/app_server.R": {
-      "checksum": "0959f195519c1f43aae7a86ac3ce8d70"
+      "checksum": "ef70e7a0b672f63c6c079c3fb7921b94"
     },
     "R/app_ui.R": {
-      "checksum": "04fd58df371f5fc7fb73a98b02efcc6a"
+      "checksum": "e49c123466f949278c90e1d3a4a3ea24"
     },
     "R/golem_utils_server.R": {
       "checksum": "c2998ee5dbb57c9af79904bc79133f74"
     },
     "R/golem_utils_ui.R": {
       "checksum": "1694775e681b1a4cf1ce4d2dda7e0316"
+    },
+    "R/mod_download_pdf.R": {
+      "checksum": "8989924e37406a541ec1c1656143679a"
     },
     "R/run_app.R": {
       "checksum": "52e1d21b1a6a2c580bc158a2c88983e3"
