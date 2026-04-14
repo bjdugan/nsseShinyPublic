@@ -54,7 +54,10 @@ app_ui <- function(request) {
         # other action buttons
         actionButton("reset_filters", "Reset filters",
                      class = "btn_secondary w-100"
-        )
+        ),
+
+        # pdf download option
+        mod_download_pdf_ui("download_pdf_1")
       ),
 
       # main panel content

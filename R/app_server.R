@@ -57,6 +57,37 @@ app_server <- function(input, output, session) {
           by = "item")
     }
   })
+  # for table displays
+  summarized_data <- reactive({
+    filtered_data() |>
+      #data |> # local testing
+      count(inst, item, value) |>
+      # filter missing, also filter valid/user NA levels
+      filter(!is.na(value)) |>
+      mutate(p = n / sum(n), .by = c(inst, item)) |>
+      pivot_wider(names_from = inst, values_from = c(n, p)) |>
+      # add context; might benefit from view;
+      #  also must accept correct instrument, yr
+      left_join(
+        tbl(instruments, "items_US") |>
+          filter(yr == 25) |>
+          select(item, label, response_set) |>
+          collect(),
+        by = "item") |>
+      left_join(
+        tbl(instruments, "response_options") |>
+          select(response_set, value, response_option = label) |>
+          collect(),
+        by = c("response_set", "value")) |>
+      select(label, item, response_option, value,
+             `Institution (n)` = n_TRUE, `Institution (%)` = p_TRUE,
+             `Comparison (n)` = n_FALSE, `Comparison (%)` = p_FALSE ) |>
+      rename_with(stringr::str_to_title, .cols = 1:4)
+  })
+
+
+  # modules ####
+  mod_download_pdf_server("download_pdf_1", summarized_data)
 
   # output ####
   output$plot <- renderPlot({
@@ -119,33 +150,8 @@ app_server <- function(input, output, session) {
   # server=FALSE will allow DL of all data presented, not just first N rows
   # > split the summarization function and datatable function into modules
   output$table <- DT::renderDT(server = FALSE, {
-    # simple summarization for now
     DT::datatable(
-      filtered_data() |>
-      #data |> # local testing
-        count(inst, item, value) |>
-        # filter missing, also filter valid/user NA levels
-        filter(!is.na(value)) |>
-        mutate(p = n / sum(n), .by = c(inst, item)) |>
-        pivot_wider(names_from = inst, values_from = c(n, p)) |>
-        # add context; might benefit from view;
-        #  also must accept correct instrument, yr
-        left_join(
-          tbl(instruments, "items_US") |>
-            filter(yr == 25) |>
-            select(item, label, response_set) |>
-            collect(),
-          by = "item") |>
-        left_join(
-          tbl(instruments, "response_options") |>
-            select(response_set, value, response_option = label) |>
-            collect(),
-          by = c("response_set", "value")) |>
-          select(label, item, response_option, value,
-                 `Institution (n)` = n_TRUE, `Institution (%)` = p_TRUE,
-                 `Comparison (n)` = n_FALSE, `Comparison (%)` = p_FALSE ) |>
-        rename_with(stringr::str_to_title, .cols = 1:4),
-
+      summarized_data(),
       # options
       extensions = "Buttons", # for download etc.
       # can feed this with Question etc?
