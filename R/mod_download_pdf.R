@@ -16,7 +16,7 @@ mod_download_pdf_ui <- function(id) {
 
 #' download_pdf Server Functions
 #'
-#'@param filtered_data Reactive expr for containing filtered data
+#'@param summarized_data Reactive expr for containing filtered data
 #'
 #' @noRd
 # include reactive data, plot, etc.

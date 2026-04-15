@@ -1,22 +1,27 @@
 ---
-title: "Sample Report"
+title: "`r paste0(params$name_report, ' Sample Report')`"
 format: 
-  pdf:
-    pdf-standard: ua-2
+  typst:
+    pdf-standard: ua-1
 params:
   summarized_data: NULL
+  name_report: "NSSEville State University"
 ---
 
 ```{r}
 #| echo: FALSE
-library(knitr)
-library(kableExtra)
+#library(knitr) 
+#library(kableExtra) # for LaTex
+library(typstable)
+library(dplyr, verbose = FALSE)
 ```
 
 ## About this report
-This report is generated from a Quarto Markdown template as a PDF using LaTex. [Accessibility](https://quarto.org/docs/blog/posts/2026-03-05-pdf-accessibility-and-standards/) is ensured via [veraPDF](https://docs.verapdf.org/install/) and can support UA-2 (LaTex) or UA-1 (typst; likely later 2026 for UA-2). **If veraPDF is not installed (requires java) it still returns PDF just doesn't check it - should be pretty accessible anyway.**
+This report is generated from a Quarto Markdown template as a PDF using LaTex or Typst. The former is well-established and supports lots of formatting but can be difficult to learn and work with, where the latter is pretty new, simpler, and suposed to be faster.
 
-This report is fed with data by `params`, which are populated via a module, which e.g. passes the reactive `filtered_data()` from the server to the qmd template file.
+[Accessibility](https://quarto.org/docs/blog/posts/2026-03-05-pdf-accessibility-and-standards/) is ensured via [veraPDF](https://docs.verapdf.org/install/) and can support UA-2 (LaTex) or UA-1 (typst; likely later 2026 for UA-2). **If veraPDF is not installed (requires java) it still returns PDF just doesn't check it - should be pretty accessible anyway.**. The only other features that must be present are YAML title and plot or image alt text
+
+This report is fed with data by `params`, which are populated via a module, which e.g. passes the reactively filtered data from the server to the qmd template file.
 
 
 Example parameters and YAML, from the SCG:
@@ -38,27 +43,54 @@ params:
 ## Content
 
 ### A table
-The following is more more less what's shown in the datatable call, but not interactive.
+The following is more more less what's shown in the DT::datatable call, but not interactive. If PDFs are generated with LaTex, knitr::kable and kableExtra package can be used for [table formatting](https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf); for typst, use [typstable](https://cran.r-project.org/web/packages/typstable/vignettes/typstable.html). Both support spanning headers and row grouping, which should be useful.
+
 ```{r, echo=FALSE}
-params$summarized_data |> 
-  kable() 
+x <- data.frame(params$summarized_data) |>
+  rename(`Institution (n)` = 5,
+         `Institution (p)` = 6,
+         `Comparison (n)` = 7,
+         `Comparison (p)` = 8) |>
+# testing
+# x <- read.csv("C:/users/bjdugan/downloads/NSSE_data_2026-04-15.csv") |>
+#   rename(`Institution (n)` = 5,
+#          `Institution (p)` = 6,
+#          `Comparison (n)` = 7,
+#          `Comparison (p)` = 8) |>
+  mutate(across(c(6, 8), \(x) as.numeric(gsub("%", "", x)) / 100 )) |>
+  # table formatting (non-test)
+  mutate(
+    across(c(6, 8), \(x) x * 100),
+    across(where(is.numeric), \(x) round(x, 1)),
+         Label = paste0(Label, " [", Item, "]"), 
+         Item = NULL)  
+  
+# add row grouping
+groups <- table(x$Label)
+groups <- setNames(as.integer(groups), names(groups))
+
+# display table w/o now duplicate grouping feature
+tt(x, cols = -1, rownames = FALSE) |> 
+  tt_pack_rows(index = groups) |> 
+  # can be named or simply listed; proportional.
+  tt_widths(3, 1, 2, 2, 2, 2)
+
 ```
 
+
+\newpage
 ### A plot
 Will be here.
 
+\newpage
 ### Child documents
 
 The following footer section is produced as a ["child" document](https://yihui.org/rmarkdown-cookbook/child-document) containing common, often static content that might be reused across reports. These can also be toggled on and off, e.g. if footnotes are needed or not. This child includes HTML footer tag surrounding a simple code chunks that produces a production date and `unitid`.
 
-The actual content of that footer.qmd. Note this was meant for RMD -> HTML -> PDF so this might need to be reconfigured a bit for latex.
+The actual content of that footer.qmd. Note this was meant for RMD -> HTML -> PDF so this might need to be reconfigured a bit for PDF.
 ```{r}
-readLines("footer.qmd")
+readLines("footer.qmd") # as {r child=c("footer.qmd")}
 ```
 
-The output is rendered:
-```{r, child=c("footer.qmd")}
-```
-
-
+It's also possible to specify files to be included via YAML typst parameters, e.g. `include-after-body:`.
 
