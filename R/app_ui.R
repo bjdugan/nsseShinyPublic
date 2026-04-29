@@ -71,7 +71,8 @@ app_ui <- function(request) {
           p("**Links to other reports etc.**"),
 
           # dataviz and tables placeholder
-          plotOutput("plot"),
+          # to organize plot+download plot button
+          plotOutput("plot"), # replace w/ plotDownloadUI
           DT::DTOutput("table"),
           # other
           HTML("<small>links placeholder (feedback, support, etc.</small>")

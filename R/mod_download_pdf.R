@@ -17,47 +17,68 @@ mod_download_pdf_ui <- function(id) {
 #' download_pdf Server Functions
 #'
 #'@param summarized_data Reactive expr for containing filtered data
+#'@param filter_inputs Filter selections etc.
 #'
 #' @noRd
 # include reactive data, plot, etc.
-mod_download_pdf_server <- function(id, summarized_data){
+mod_download_pdf_server <- function(id, summarized_data, filter_inputs){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
+    # helper fun to copy qmd and typst templates
+    copy_dir_to_temp <- function(source_dir, temp_dir) {
+      if (!dir.exists(source_dir)) return(invisible(NULL))
+
+      files <- list.files(source_dir, full.names = TRUE, recursive = TRUE)
+      if (length(files) == 0) return(invisible(NULL))
+
+      # Get relative paths
+      rel_paths <- sub(paste0(source_dir, "/"), "", files)
+      dest_paths <- file.path(temp_dir, rel_paths)
+
+      # Create all necessary subdirectories
+      lapply(unique(dirname(dest_paths)),
+             \(d) if (!dir.exists(d)) dir.create(d, recursive = TRUE))
+
+      # Copy all files at once
+      file.copy(files, dest_paths, overwrite = TRUE)
+    }
+
     output$download_pdf <- downloadHandler(
       filename = function() {
-        paste0("report_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".pdf")
+        paste0("report_", format(Sys.Date(), "%Y-%m-%d"), ".pdf")
       },
       content = function(file) {
         # set paths and temp dir
         temp_dir <- tempdir()
 
-        # for local dev vs. production
+        # for local dev vs. production; this will copy all files in subdirs
         if (interactive()) {
-          template_path <- "./inst/md/report_template.qmd"
-          child_path <- "./inst/md/footer.qmd"
+          md_dir <- "./inst/md"
+          typst_dir <- "./inst/typst"
         } else {
-          template_path <- system.file("md", "report_template.qmd",
-                                       package = "nsseShiny")
-          child_path <- system.file("md", "footer.qmd",
-                                    package = "nsseShiny")
+          md_dir <- system.file("md", package = "nsseShiny")
+          typst_dir <- system.file("typst", package = "nsseShiny")
         }
 
-        # copy templates to temp directory to ensure child document is accessible
-        temp_template <- file.path(temp_dir, "report_template.qmd")
-        temp_child <- file.path(temp_dir, "footer.qmd")
-        file.copy(template_path, temp_template, overwrite = TRUE)
-        file.copy(child_path, temp_child, overwrite = TRUE)
+        # copy templates to temp directory
+        copy_dir_to_temp(md_dir, temp_dir)
+        copy_dir_to_temp(typst_dir, temp_dir)
 
         # render
         quarto::quarto_render(
-          input = temp_template,
+          input = file.path(temp_dir, "report_template.qmd"),
           output_file = basename(file),
           # params for rmarkdown::render()
           execute_params = list(
-            summarized_data = summarized_data()
+            summarized_data = summarized_data(),
+            inputs = list(
+              unitid = filter_inputs$unitid_filter(),
+              kpi_name = filter_inputs$kpi_name_filter(),
+              irclass = filter_inputs$irclass_filter()
             ),
-          #envir = new.env(parent = globalenv()) # only for rmd
+            endnotes = TRUE # generic endnotes page
+            ),
         )
       },
       # guessed otherwise

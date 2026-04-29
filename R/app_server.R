@@ -85,12 +85,7 @@ app_server <- function(input, output, session) {
       rename_with(stringr::str_to_title, .cols = 1:4)
   })
 
-
-  # modules ####
-  mod_download_pdf_server("download_pdf_1", summarized_data)
-
-  # output ####
-  output$plot <- renderPlot({
+  plotted_data <- reactive({
     filtered_data() |>
       #data |> #local testing
       count(inst, item, value) |>
@@ -137,7 +132,7 @@ app_server <- function(input, output, session) {
             plot.title.position = "plot",
             legend.title = element_blank(),
             text = element_text(size = 22)
-            ) +
+      ) +
       scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
       labs(
         title = "<Question>",
@@ -146,6 +141,22 @@ app_server <- function(input, output, session) {
         y = NULL
       )
   })
+
+
+  # modules ####
+  # create a list of applied filters/inputs to pass to qmd/pdf
+  filter_inputs <- list(
+    unitid_filter = reactive({ input$unitid_filter }),
+    kpi_name_filter = reactive({ input$kpi_name_filter }),
+    irclass_filter = reactive({ input$irclass_filter })
+  )
+
+  mod_download_pdf_server("download_pdf_1", summarized_data, filter_inputs)
+
+  mod_download_plot_server("download_plot_1", plotted_data)
+
+  # output ####
+  #  output$plot <- renderPlot({ plotted_data() })
 
   # server=FALSE will allow DL of all data presented, not just first N rows
   # > split the summarization function and datatable function into modules
@@ -185,7 +196,7 @@ app_server <- function(input, output, session) {
       DT::formatPercentage(c("Institution (%)", "Comparison (%)"), 1)
   })
 
-  # text elements to be used in UI ####
+  # text elements for UI ####
   # page title
   output$page_title <- renderText({
     paste("NSSE2X:", # could add year dynamically etc.
