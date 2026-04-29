@@ -72,7 +72,9 @@ app_ui <- function(request) {
 
           # dataviz and tables placeholder
           # to organize plot+download plot button
-          plotOutput("plot"), # replace w/ plotDownloadUI
+          #plotOutput("plot"), # or plotDownloadUI
+          mod_download_plot_ui("download_plot_1"), # UI card that includes plot and download button
+
           DT::DTOutput("table"),
           # other
           HTML("<small>links placeholder (feedback, support, etc.</small>")

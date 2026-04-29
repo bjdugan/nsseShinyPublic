@@ -33,7 +33,7 @@ mod_download_plot_server <- function(id, plotted_data){
 
     # download handler
     output$download_plot <- downloadHandler(
-      filename = paset0("plot", Sys.Date(), ".png"),
+      filename = paste0("plot", Sys.Date(), ".png"),
 
       content = function(file){
         ggsave(
