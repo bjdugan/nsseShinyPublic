@@ -1,0 +1,15 @@
+project:
+  type: default
+
+format:
+  pdf:
+    engine: typst
+    typst:
+      template: typst/template.typ
+    toc: true
+    number-sections: false
+
+execute:
+  echo: false
+  warning: false
+  message: false

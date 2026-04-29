@@ -1,11 +1,11 @@
-<footer>
 ```{r}
 data.frame(
   l = paste("Prepared", Sys.Date()),
   c = "",
-  r = paste("Institution ID: <unitid>")) |>
-  kable(col.names = c("", "", ""),
-        align = c("l", "c", "r")) |>
-  column_spec(1:3, width = rep("33em", 3))
+  r = paste("Institution ID: ", params$inputs$unitid)) |>
+  tt(col_names = c("", "", ""),
+     align = c("l", "c", "r"), 
+     col_widths = "auto", # default
+     rownames = FALSE)
 ```
-</footer>
+
