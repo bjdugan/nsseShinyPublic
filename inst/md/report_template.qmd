@@ -2,11 +2,11 @@
 title: "`r paste0(params$inputs$unitid, ' Sample Report')`"
 format: 
   typst:
-    pdf-standard: ua-1
-    template: typst/template.typ
+    pdf: ua-1
 params:
   summarized_data: NULL
   inputs: NULL
+  endnotes: TRUE
 ---
 
 ```{r}
@@ -16,14 +16,14 @@ library(kableExtra) # for LaTex, and footer
 library(typstable)
 library(dplyr, warn.conflicts = FALSE)
 
-table_caption <- paste0(params$inputs$kpi_name, " - ", 
-                       params$inputs$irclass, 
+table_caption <- paste0(params$inputs$kpi_name, " - ",
+                       params$inputs$irclass,
                        if (params$inputs$irclass == "First-year") " students" else "s"
                        )
 ```
 
 ## About this report
-This report is generated from a Quarto Markdown template as a PDF using LaTex or *Typst*. The former is well-established and supports lots of formatting but can be difficult to learn and work with, where the latter is pretty new, simpler, and suposed to be faster.
+This report is generated from a Quarto Markdown template as a PDF using LaTex or *Typst*. The former is well-established and supports lots of formatting but can be difficult to learn and work with, where the latter is pretty new, simpler, and suposed to be faster. Play around with typst here: [https://typst.app/play/](https://typst.app/play/).
 
 [Accessibility](https://quarto.org/docs/blog/posts/2026-03-05-pdf-accessibility-and-standards/) is ensured via [veraPDF](https://docs.verapdf.org/install/) and can support UA-2 (LaTex) or UA-1 (typst; likely later 2026 for UA-2). **If veraPDF is not installed (requires java) it still returns PDF just doesn't check it - should be pretty accessible anyway.**. The only other features that must be present are YAML title and plot or image alt text
 
@@ -86,18 +86,6 @@ tt(x, cols = -1, rownames = FALSE) |>
 ```
 
 
-:::{.typst-callout kind="note"}
-This text is formatted by typst into a "note" reusable component.
-:::
-
 \newpage
 ### A plot
 Will be here.
-
-### Headers and footers
-Are defined by typst, not as Quarto chunks or elements. 
-See e.g.
-```{r}
-readLines("inst/md/typst/header-footer.typ")
-```
-
